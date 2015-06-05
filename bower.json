@@ -1,0 +1,24 @@
+{
+  "name": "scribe-plugin-drag-and-drop",
+  "description": "Emit events when dragging and dropping",
+  "version": "0.1.0",
+  "homepage": "https://github.com/hmgibson23/scribe-plugin-drag-and-drop",
+  "license": "",
+  "copyright": "hmgibson23",
+  "main": "scribe-plugin-drag-and-drop.js",
+  "dependencies": {
+    "scribe": "~1.2.2",
+    "scribe-plugin-toolbar": "~0.1.4",
+    "scribe-common": "~0.0.11",
+    "lodash-amd": "~2.4.1"
+  },
+  "devDependencies": {},
+  "ignore": [
+    "test",
+    "example",
+    "lib",
+    "Gruntfile.js",
+    "package.json",
+    "grunt"
+  ]
+}

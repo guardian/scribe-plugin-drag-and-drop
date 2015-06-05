@@ -1,0 +1,55 @@
+{
+    "name": "scribe-plugin-drag-and-drop",
+    "description": "Emit events when dragging and dropping",
+    "version": "0.1.0",
+    "homepage": "https://github.com/hmgibson23/scribe-plugin-drag-and-drop",
+    "author": {
+        "name": "hmgibson23",
+        "email": "hugo.gibson@yahoo.co.uk"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hmgibson23/scribe-plugin-drag-and-drop"
+    },
+    "bugs": {
+        "url": "https://github.com/hmgibson23/scribe-plugin-drag-and-drop/issues"
+    },
+    "licenses": [
+        {
+            "type": "Apache2",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ],
+    "main": "lib/scribe-plugin-drag-and-drop",
+    "engines": {
+        "node": ">= 0.10.0"
+    },
+    "scripts": {
+        "test-firefox": "TEST_SERVER_PORT=9090 BROWSER_NAME='firefox' ./run-tests.sh",
+        "test-chrome": "TEST_SERVER_PORT=9090 BROWSER_NAME='chrome' ./run-tests.sh",
+        "test": "npm run test-chrome",
+        "postinstall": "bower install",
+        "build": "browserify --standalone scribe-plugin-drag-and-drop > ./build/scribe-plugin-drag-and-drop.js",
+        "build-prod": "npm run build && uglifyjs ./build/scribe-plugin-drag-and-drop.js > ./build/scribe-plugin-drag-and-drop.min.js",
+        "watch": "watchify -o ./build/scribe-plugin-drag-and-drop.js"
+    },
+    "browserify": { "transform": "babelify" },
+    "devDependencies": {
+        "babel": "^4.4.5",
+        "babelify": "^5.0.3",
+        "bower": "^1.3.12",
+        "browserify": "^9.0.3",
+        "chai": "1.9.1",
+        "glob": "^4.1.5",
+        "http-server": "^0.7.1",
+        "lodash": "^2.4.1",
+        "mocha": "^2.0.1",
+        "scribe-test-harness": "^0.0.6",
+        "selenium-webdriver": "^2.44.0",
+        "webdriver-manager": "^1.0.1",
+        "uglify-js": "^2.4.16",
+        "mversion": "^1.3.0",
+        "watchify": "^2.4.0"
+    },
+    "keywords": []
+}
