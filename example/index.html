@@ -32,7 +32,9 @@
           function(Scribe, scribePlugin) {
     window.Scribe = Scribe;
     window.scribe = new Scribe(document.querySelector('.scribe'));
-    scribe.use(scribePlugin());
+    window.scribePlugin = scribePlugin;
+    scribe.setHTML("<p>Test</p><p>Fun times</p><p>Another paragraph</p>");
+    scribe.use(scribePlugin({class: "drag-is-over"}));
   });
 </script>
 </body>
