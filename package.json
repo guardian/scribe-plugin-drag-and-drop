@@ -1,7 +1,7 @@
 {
     "name": "scribe-plugin-drag-and-drop",
     "description": "Emit events when dragging and dropping",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "homepage": "https://github.com/hmgibson23/scribe-plugin-drag-and-drop",
     "author": {
         "name": "hmgibson23",
@@ -33,7 +33,9 @@
         "build-prod": "npm run build && uglifyjs ./build/scribe-plugin-drag-and-drop.js > ./build/scribe-plugin-drag-and-drop.min.js --source-map ./build/scribe-plugin-drag-and-drop.min.js.map > ./build/scribe-plugin-drag-and-drop.min.js",
         "watch": "watchify -o ./build/scribe-plugin-drag-and-drop.js"
     },
-    "browserify": { "transform": "babelify" },
+    "browserify": {
+        "transform": "babelify"
+    },
     "devDependencies": {
         "babel": "^4.4.5",
         "babelify": "^5.0.3",
