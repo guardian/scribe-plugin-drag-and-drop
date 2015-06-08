@@ -68,7 +68,6 @@ module.exports = function(config) {
       helpers.removePreAndPost(bindableElements());
     });
 
-    console.log("bindable elements: ", bindableElements());
   };
 
 };
