@@ -1,7 +1,7 @@
 {
     "name": "scribe-plugin-drag-and-drop",
     "description": "Emit events when dragging and dropping",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "homepage": "https://github.com/hmgibson23/scribe-plugin-drag-and-drop",
     "author": {
         "name": "hmgibson23",
