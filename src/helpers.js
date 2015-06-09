@@ -36,8 +36,9 @@ module.exports = function (config) {
     let parent = el.parentElement;
     let p = document.createElement("p");
 
+    //TODO: The para before a pre will have post true, the para after a post will have pre true
+
     p.classList.add(INDICATOR_CLASS);
-    p.classList.add(dropId);
     p.classList.add(STYLE_CLASS);
 
     if (position === "PRE" && el.dataset && el.dataset.pre !== "true") {
@@ -82,23 +83,43 @@ module.exports = function (config) {
     // it will be set
     el.classList.remove(INDICATOR_CLASS);
     el.classList.remove(STYLE_CLASS);
-    el.classList.remove(dropid);
+
 
     // no clue why this needs to run twice
     window.setTimeout(() => removePreAndPost(bindableElements), 100);
     window.setTimeout(() => removePreAndPost(bindableElements), 500);
 
     var droppedUrl = event.dataTransfer.getData('URL');
-    var customEvent = new CustomEvent(EVENT_NAME, {url: droppedUrl});
+    event.target.textContent = droppedUrl;
+    var customEvent = new CustomEvent(EVENT_NAME,
+                                      { 'detail': {
+                                        dataTransfer: event.dataTransfer,
+                                        element: event.target }
+                                      });
 
     parent.dispatchEvent(customEvent);
 
   }
 
+  /**
+   * Delegate an event handler to a child element
+   * @param {element} - the parent element
+   * @param {string} - the eventType to listen to
+   * @param {selector}
+   * @param {function}
+   */
+  function delegate(element, eventType, selector, callback) {
+    element.addEventListener(eventType, function (event) {
+      if (event.target.matches(selector)) {
+        callback.call(event.target, event);
+      }
+    });
+  }
 
   return {
     removePreAndPost: removePreAndPost,
     addWrappingPs: addWrappingPs,
-    dropOccurred: dropOccurred
+    dropOccurred: dropOccurred,
+    delegate: delegate
   };
 };

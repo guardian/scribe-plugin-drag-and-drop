@@ -35,14 +35,25 @@ module.exports = function(config) {
     };
 
 
-    // bind the drop ids as soon as scribe is ready
-    bindDropIds();
+    //rebind when the content changes
+    scribe.on('content-changed', bindDropIds);
 
-    scribe.el.addEventListener('dragenter', (event) => {
+    // bind the drop ids as soon as scribe is ready
+    window.setTimeout(bindDropIds, 500);
+
+    helpers.delegate(scribe.el, 'dragenter', 'p', (event) => {
+      event.preventDefault();
+
+
       let el = event.target;
       let dropid = el.dataset.dropid || null;
 
       if(!dropid) {
+        return;
+      }
+
+      if(isEmpty(el)) {
+        el.classList.add(config.STYLE_CLASS);
         return;
       }
 
@@ -56,7 +67,8 @@ module.exports = function(config) {
       }
     });
 
-    scribe.el.addEventListener('drop', (event) => {
+    helpers.delegate(scribe.el, 'drop', 'p', (event) => {
+      event.preventDefault();
       helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID);
       // reset everything
       bindDropIds();
@@ -64,10 +76,9 @@ module.exports = function(config) {
 
 
     // can't really figure out when this is fired so probs best to ditch it
-    scribe.el.addEventListener('dragend', () => {
+    helpers.delegate(scribe.el, 'dragend', 'p', () => {
       helpers.removePreAndPost(bindableElements());
     });
-
   };
 
 };
