@@ -16,9 +16,14 @@ module.exports = function (config) {
    * @param {array} bindableElements - an array of elements that can be bound
    */
   function removePreAndPost(bindableElements) {
-    var els = document.querySelectorAll("[data-class=" + INDICATOR_CLASS + "]");
+    var els = document.getElementsByClassName(config.INDICATOR_CLASS);
 
     forEach.call(els, function (el) {
+      el.parentElement.removeChild(el);
+    });
+
+    var classed = document.getElementsByClassName(config.STYLE_CLASS);
+    forEach["class"](classed, function (el) {
       el.parentElement.removeChild(el);
     });
 
@@ -38,7 +43,7 @@ module.exports = function (config) {
 
     //TODO: The para before a pre will have post true, the para after a post will have pre true
 
-    p.dataset["class"] = INDICATOR_CLASS;
+    p.classList.add(INDICATOR_CLASS);
     p.classList.add(STYLE_CLASS);
 
     if (position === "PRE" && el.dataset && el.dataset.pre !== "true") {
@@ -81,7 +86,7 @@ module.exports = function (config) {
     // all classes with the INDICATOR_CLASS will be removed
     // so this needs to be removed from the target element or
     // it will be set
-    el.removeAttribute("data-class");
+    el.removeAttribute("class");
     el.classList.remove(STYLE_CLASS);
 
     // no clue why this needs to run twice
@@ -159,7 +164,6 @@ module.exports = function (config) {
         el.removeAttribute("data-pre");
         el.removeAttribute("data-post");
         el.removeAttribute("data-dropid");
-        el.removeAttribute("data-class");
       });
     };
 
