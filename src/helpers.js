@@ -21,11 +21,6 @@ module.exports = function (config) {
       el.parentElement.removeChild(el);
     });
 
-    let classed = document.getElementsByClassName(config.STYLE_CLASS);
-    forEach.class(classed, (el => {
-      el.parentElement.removeChild(el);
-    }));
-
     bindableElements.forEach((el) => {
       el.dataset.pre = false; el.dataset.post = false;
     });
