@@ -15,7 +15,7 @@ module.exports = function (config) {
    * @param {array} bindableElements - an array of elements that can be bound
    */
   function removePreAndPost(bindableElements) {
-    let els = document.getElementsByClassName(config.INDICATOR_CLASS);
+    let els = document.getElementsByClassName(INDICATOR_CLASS);
 
     forEach.call(els, (el) => {
       el.parentElement.removeChild(el);
@@ -81,7 +81,7 @@ module.exports = function (config) {
     // all classes with the INDICATOR_CLASS will be removed
     // so this needs to be removed from the target element or
     // it will be set
-    el.removeAttribute("class");
+    el.classList.remove(INDICATOR_CLASS);
     el.classList.remove(STYLE_CLASS);
 
 
