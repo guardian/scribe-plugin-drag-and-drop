@@ -8,9 +8,7 @@
   "main": "scribe-plugin-drag-and-drop.js",
   "dependencies": {
     "scribe": "~1.3.2",
-    "scribe-common": "~0.0.11",
-    "lodash-amd": "~2.4.1",
-    "requirejs": "~2.1.18"
+    "scribe-common": "~0.0.11"
   },
   "devDependencies": {},
   "ignore": [
