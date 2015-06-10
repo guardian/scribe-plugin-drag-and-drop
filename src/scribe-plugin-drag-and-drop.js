@@ -28,7 +28,6 @@ module.exports = function(config) {
         el.removeAttribute("data-pre");
         el.removeAttribute("data-post");
         el.removeAttribute("data-dropid");
-        el.removeAttribute("data-class");
       });
     };
 
