@@ -15,7 +15,7 @@ module.exports = function (config) {
    * @param {array} bindableElements - an array of elements that can be bound
    */
   function removePreAndPost(bindableElements) {
-    let els = document.getElementsByClassName(INDICATOR_CLASS);
+    let els = document.querySelectorAll('[data-class='+INDICATOR_CLASS + ']');
 
     forEach.call(els, (el) => {
       el.parentElement.removeChild(el);
@@ -38,7 +38,7 @@ module.exports = function (config) {
 
     //TODO: The para before a pre will have post true, the para after a post will have pre true
 
-    p.classList.add(INDICATOR_CLASS);
+    p.dataset.class = INDICATOR_CLASS;
     p.classList.add(STYLE_CLASS);
 
     if (position === "PRE" && el.dataset && el.dataset.pre !== "true") {
@@ -74,20 +74,19 @@ module.exports = function (config) {
    * @param {array} element - an array of elements that can be bound
    *
    */
-  function dropOccurred(event, bindableElements, dropid) {
+  function dropOccurred(event, bindableElements, dropid, scribe) {
     let el = event.target;
     let parent = el.parentElement;
 
     // all classes with the INDICATOR_CLASS will be removed
     // so this needs to be removed from the target element or
     // it will be set
-    el.classList.remove(INDICATOR_CLASS);
+    el.removeAttribute("data-class");
     el.classList.remove(STYLE_CLASS);
 
 
     // no clue why this needs to run twice
-    window.setTimeout(() => removePreAndPost(bindableElements), 100);
-    window.setTimeout(() => removePreAndPost(bindableElements), 500);
+    scribe.transactionManager.run(() => removePreAndPost(bindableElements));
 
     var droppedUrl = event.dataTransfer.getData('URL');
     event.target.textContent = droppedUrl;
