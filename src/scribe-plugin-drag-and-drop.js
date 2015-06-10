@@ -16,30 +16,38 @@ module.exports = function(config) {
 
     let isEmpty = (el) => el.childNodes.length === 0;
     let bindableElements = () => filter.call(scribe.el.children,
-                                       (child) => child.nodeName === NODE_NAME);
+                                             (child) => child.nodeName === NODE_NAME);
 
     // clean up the classes
     let cleanup = () => {
+      // drop is not longer happening
+      CURRENT_DROP_ID = null;
+      helpers.removePreAndPost(bindableElements());
+
       bindableElements().forEach((el) => {
-        delete el.dataset.pre;
-        delete el.dataset.post;
-        delete el.dataset.dropid;
+        el.removeAttribute("data-pre");
+        el.removeAttribute("data-post");
+        el.removeAttribute("data-dropid");
+        el.removeAttribute("data-class");
       });
     };
 
     let bindDropIds = () => {
       cleanup();
-      helpers.removePreAndPost(bindableElements());
       // this is used to determine which elements are being dropped on
       bindableElements().forEach((el, index) => {el.dataset.dropid = index;});
     };
 
 
     //rebind when the content changes
-    scribe.on('content-changed', bindDropIds);
+    scribe.on('content-changed', () => {
+      if (!CURRENT_DROP_ID) {
+        bindDropIds();
+      }
+    });
 
     // bind the drop ids as soon as scribe is ready
-    window.setTimeout(bindDropIds, 500);
+    scribe.transactionManager.run(() => {bindDropIds();});
 
     helpers.delegate(scribe.el, 'dragenter', 'p', (event) => {
       event.preventDefault();
@@ -69,7 +77,7 @@ module.exports = function(config) {
 
     helpers.delegate(scribe.el, 'drop', 'p', (event) => {
       event.preventDefault();
-      helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID);
+      helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID, scribe);
       // reset everything
       bindDropIds();
     });
