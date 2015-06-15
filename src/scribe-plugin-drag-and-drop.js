@@ -13,7 +13,7 @@ module.exports = function(config) {
   return function(scribe) {
     // used to know if a drop's going on - cleared when they've moved elsewhere
     let CURRENT_DROP_ID;
-
+    let dragHandler; // so we can track when a drag is happening
     let isEmpty = (el) => el.childNodes.length === 0;
     let bindableElements = () => filter.call(scribe.el.children,
                                              (child) => child.nodeName === NODE_NAME);
@@ -83,8 +83,10 @@ module.exports = function(config) {
 
 
     // can't really figure out when this is fired so probs best to ditch it
-    helpers.delegate(scribe.el, 'dragend', 'p', () => {
-      helpers.removePreAndPost(bindableElements());
+    window.addEventListener('dragend', () => {
+        if (dragHandler) {
+            scribe.transactionManager(() => { cleanup(); });
+        }
     });
   };
 
