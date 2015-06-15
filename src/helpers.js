@@ -27,27 +27,47 @@ module.exports = function (config) {
   }
 
 
+  function checkDataset(el, pos) {
+    return pos === "PRE" && el.dataset ? el.dataset.pre === "true"
+      : el.dataset.post === "true";
+  }
+
+  function hasPreOrPost(el, pos) {
+
+    if (pos === "PRE") {
+      var checkPreviousSibling  =
+            !!(el.previousSibling && !checkDataset(el.previousSibling, "POST"));
+      return checkPreviousSibling && checkDataset(el, "PRE");
+    }
+
+    var checkNextSibling =
+          !!(el.nextSibling && !checkDataset(el.nextSibling, "PRE"));
+      return checkNextSibling && checkDataset(el, "POST");
+
+  }
+
+
   /** CAUTION: Modifies the passed element
    * @param {element} el - the element to modify
    * @param {string} position - one of PRE or POST (before or after)
    * @return Boolean
    */
   function insertP(el, position, dropId) {
-    let parent = el.parentElement;
-    let p = document.createElement("p");
+    var parent = el.parentElement;
+    var p = document.createElement("p");
 
     //TODO: The para before a pre will have post true, the para after a post will have pre true
 
     p.classList.add(INDICATOR_CLASS);
     p.classList.add(STYLE_CLASS);
 
-    if (position === "PRE" && el.dataset && el.dataset.pre !== "true") {
+    if (position === "PRE" && !hasPreOrPost(el, position)) {
       parent.insertBefore(p, el);
       el.dataset.pre = true;
       return el.dataset.pre;
     }
 
-    if (position === "POST" && el.dataset && el.dataset.post !== "true" ) {
+    if (position === "POST" && !hasPreOrPost(el, position)) {
       parent.insertBefore(p, el.nextSibling);
       el.dataset.post = true;
       return el.dataset.post;
