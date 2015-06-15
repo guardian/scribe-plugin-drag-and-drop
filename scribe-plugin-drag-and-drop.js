@@ -27,6 +27,21 @@ module.exports = function (config) {
     });
   }
 
+  function checkDataset(el, pos) {
+    return pos === "PRE" && el.dataset ? el.dataset.pre === "true" : el.dataset.post === "true";
+  }
+
+  function hasPreOrPost(el, pos) {
+
+    if (pos === "PRE") {
+      var checkPreviousSibling = !!(el.previousSibling && !checkDataset(el.previousSibling, "POST"));
+      return checkPreviousSibling && checkDataset(el, "PRE");
+    }
+
+    var checkNextSibling = !!(el.nextSibling && !checkDataset(el.nextSibling, "PRE"));
+    return checkNextSibling && checkDataset(el, "POST");
+  }
+
   /** CAUTION: Modifies the passed element
    * @param {element} el - the element to modify
    * @param {string} position - one of PRE or POST (before or after)
@@ -41,13 +56,13 @@ module.exports = function (config) {
     p.classList.add(INDICATOR_CLASS);
     p.classList.add(STYLE_CLASS);
 
-    if (position === "PRE" && el.dataset && el.dataset.pre !== "true") {
+    if (position === "PRE" && !hasPreOrPost(el, position)) {
       parent.insertBefore(p, el);
       el.dataset.pre = true;
       return el.dataset.pre;
     }
 
-    if (position === "POST" && el.dataset && el.dataset.post !== "true") {
+    if (position === "POST" && !hasPreOrPost(el, position)) {
       parent.insertBefore(p, el.nextSibling);
       el.dataset.post = true;
       return el.dataset.post;
@@ -139,7 +154,7 @@ module.exports = function (config) {
   return function (scribe) {
     // used to know if a drop's going on - cleared when they've moved elsewhere
     var CURRENT_DROP_ID = undefined;
-
+    var dragHandler = undefined; // so we can track when a drag is happening
     var isEmpty = function (el) {
       return el.childNodes.length === 0;
     };
@@ -215,8 +230,12 @@ module.exports = function (config) {
     });
 
     // can't really figure out when this is fired so probs best to ditch it
-    helpers.delegate(scribe.el, "dragend", "p", function () {
-      helpers.removePreAndPost(bindableElements());
+    window.addEventListener("dragend", function () {
+      if (dragHandler) {
+        scribe.transactionManager(function () {
+          cleanup();
+        });
+      }
     });
   };
 };
