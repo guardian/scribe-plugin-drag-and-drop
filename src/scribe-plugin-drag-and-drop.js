@@ -83,7 +83,7 @@ module.exports = function(config) {
 
 
     document.addEventListener('dragend', () => {
-      scribe.transactionManager(() => { cleanup(); });
+      scribe.transactionManager.run(() => { cleanup(); });
     });
   };
 
