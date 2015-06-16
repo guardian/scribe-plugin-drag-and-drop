@@ -82,11 +82,8 @@ module.exports = function(config) {
     });
 
 
-    // can't really figure out when this is fired so probs best to ditch it
-    window.addEventListener('dragend', () => {
-        if (dragHandler) {
-            scribe.transactionManager(() => { cleanup(); });
-        }
+    document.addEventListener('dragend', () => {
+      scribe.transactionManager(() => { cleanup(); });
     });
   };
 
