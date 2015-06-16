@@ -4,7 +4,7 @@
 module.exports = function (config) {
 
   var INDICATOR_CLASS = "drag-and-drop";;
-  var STYLE_CLASS = config.STYLE_CLASS || "scribe-plugin-drag-and-drop-default-style";
+  var STYLE_CLASS = config.style_class || "scribe-plugin-drag-and-drop-default-style";
   var EVENT_NAME = "scribe:url-dropped";
   var INSERT_POSITIONS = ["PRE", "POST"];
 
@@ -208,7 +208,7 @@ module.exports = function (config) {
       }
 
       if (isEmpty(el)) {
-        el.classList.add(config.STYLE_CLASS);
+        el.classList.add(config.style_class);
         return;
       }
 
@@ -227,6 +227,18 @@ module.exports = function (config) {
       helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID, scribe);
       // reset everything
       bindDropIds();
+    });
+
+    helpers.delegate(scribe.el, "dragover", "p", function (event) {
+      if (event.target.className.indexOf(config.style_class) !== -1 && event.target.className.indexOf(config.hover_class) === -1) {
+        event.target.classList.add(config.hover_class);
+      }
+    });
+
+    helpers.delegate(scribe.el, "dragleave", "p", function (event) {
+      if (event.target.className.indexOf(config.style_class) !== -1 && event.target.className.indexOf(config.hover_class) !== -1) {
+        event.target.classList.remove(config.hover_class);
+      }
     });
 
     document.addEventListener("dragend", function () {
