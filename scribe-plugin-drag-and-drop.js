@@ -230,7 +230,7 @@ module.exports = function (config) {
     });
 
     document.addEventListener("dragend", function () {
-      scribe.transactionManager(function () {
+      scribe.transactionManager.run(function () {
         cleanup();
       });
     });
