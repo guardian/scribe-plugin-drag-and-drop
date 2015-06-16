@@ -60,7 +60,7 @@ module.exports = function(config) {
       }
 
       if(isEmpty(el)) {
-        el.classList.add(config.STYLE_CLASS);
+        el.classList.add(config.style_class);
         return;
       }
 
@@ -81,6 +81,20 @@ module.exports = function(config) {
       bindDropIds();
     });
 
+
+    helpers.delegate(scribe.el, "dragover", "p", function (event) {
+      if(event.target.className.indexOf(config.style_class) !== -1
+         && event.target.className.indexOf(config.hover_class) === -1) {
+        event.target.classList.add(config.hover_class);
+      }
+    });
+
+    helpers.delegate(scribe.el, "dragleave", "p", function (event) {
+      if(event.target.className.indexOf(config.style_class) !== -1
+         && event.target.className.indexOf(config.hover_class) !== -1) {
+        event.target.classList.remove(config.hover_class);
+      }
+    });
 
     document.addEventListener('dragend', () => {
       scribe.transactionManager.run(() => { cleanup(); });
