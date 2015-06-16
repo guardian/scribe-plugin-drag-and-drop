@@ -229,13 +229,10 @@ module.exports = function (config) {
       bindDropIds();
     });
 
-    // can't really figure out when this is fired so probs best to ditch it
-    window.addEventListener("dragend", function () {
-      if (dragHandler) {
-        scribe.transactionManager(function () {
-          cleanup();
-        });
-      }
+    document.addEventListener("dragend", function () {
+      scribe.transactionManager(function () {
+        cleanup();
+      });
     });
   };
 };
