@@ -2,7 +2,7 @@ module.exports = function (config) {
 
 
   const INDICATOR_CLASS = "drag-and-drop";;
-  const STYLE_CLASS = config.STYLE_CLASS || "scribe-plugin-drag-and-drop-default-style";
+  const STYLE_CLASS = config.style_class || "scribe-plugin-drag-and-drop-default-style";
   const EVENT_NAME = "scribe:url-dropped";
   const INSERT_POSITIONS = ['PRE', 'POST'];
 
