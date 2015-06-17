@@ -84,14 +84,14 @@ module.exports = function(config) {
 
     helpers.delegate(scribe.el, "dragover", "p", function (event) {
       if(event.target.classList.contains(config.style_class)
-         && event.target.classList.contains(config.hover_class)) {
+         && !event.target.classList.contains(config.hover_class)) {
         event.target.classList.add(config.hover_class);
       }
     });
 
     helpers.delegate(scribe.el, "dragleave", "p", function (event) {
       if(event.target.classList.contains(config.style_class)
-         && event.target.classList.contains(config.hover_class)) {
+         && !event.target.classList.contains(config.hover_class)) {
         event.target.classList.remove(config.hover_class);
       }
     });
