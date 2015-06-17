@@ -27,19 +27,24 @@ module.exports = function (config) {
     });
   }
 
-  function checkDataset(el, pos) {
-    return pos === "PRE" && el.dataset ? el.dataset.pre === "true" : el.dataset.post === "true";
+  function isMarkerElement(el) {
+    return el && el.classList.contains(INDICATOR_CLASS);
   }
 
-  function hasPreOrPost(el, pos) {
+  function hasPre(el) {
+    if (!el.previousSibling) {
+      return false;
+    }var checkPreviousSibling = isMarkerElement(el.previousSibling);
 
-    if (pos === "PRE") {
-      var checkPreviousSibling = !!(el.previousSibling && !checkDataset(el.previousSibling, "POST"));
-      return checkPreviousSibling && checkDataset(el, "PRE");
-    }
+    return checkPreviousSibling || el.dataset.pre === "true";
+  }
 
-    var checkNextSibling = !!(el.nextSibling && !checkDataset(el.nextSibling, "PRE"));
-    return checkNextSibling && checkDataset(el, "POST");
+  function hasPost(el) {
+    if (!el.nextSibling) {
+      return false;
+    }var checkNextSibling = isMarkerElement(el.nextSibling);
+
+    return checkNextSibling || el.dataset.post === "true";
   }
 
   /** CAUTION: Modifies the passed element
@@ -51,18 +56,16 @@ module.exports = function (config) {
     var parent = el.parentElement;
     var p = document.createElement("p");
 
-    //TODO: The para before a pre will have post true, the para after a post will have pre true
-
     p.classList.add(INDICATOR_CLASS);
     p.classList.add(STYLE_CLASS);
 
-    if (position === "PRE" && !hasPreOrPost(el, position)) {
+    if (position === "PRE" && !hasPre(el)) {
       parent.insertBefore(p, el);
       el.dataset.pre = true;
       return el.dataset.pre;
     }
 
-    if (position === "POST" && !hasPreOrPost(el, position)) {
+    if (position === "POST" && !hasPost(el)) {
       parent.insertBefore(p, el.nextSibling);
       el.dataset.post = true;
       return el.dataset.post;
@@ -230,13 +233,13 @@ module.exports = function (config) {
     });
 
     helpers.delegate(scribe.el, "dragover", "p", function (event) {
-      if (event.target.className.indexOf(config.style_class) !== -1 && event.target.className.indexOf(config.hover_class) === -1) {
+      if (event.target.classList.contains(config.style_class) && event.target.classList.contains(config.hover_class)) {
         event.target.classList.add(config.hover_class);
       }
     });
 
     helpers.delegate(scribe.el, "dragleave", "p", function (event) {
-      if (event.target.className.indexOf(config.style_class) !== -1 && event.target.className.indexOf(config.hover_class) !== -1) {
+      if (event.target.classList.contains(config.style_class) && event.target.classList.contains(config.hover_class)) {
         event.target.classList.remove(config.hover_class);
       }
     });
