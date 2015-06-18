@@ -14,7 +14,8 @@ module.exports = function(config) {
     // used to know if a drop's going on - cleared when they've moved elsewhere
     let CURRENT_DROP_ID;
     let dragHandler; // so we can track when a drag is happening
-    let isEmpty = (el) => el.childNodes.length === 0;
+    let isEmpty = (el) => el.childNodes.length === 0 ||
+          el.childNodes.length === 1 && el.firstChild.nodeName === 'BR';
     let bindableElements = () => filter.call(scribe.el.children,
                                              (child) => child.nodeName === NODE_NAME);
 
