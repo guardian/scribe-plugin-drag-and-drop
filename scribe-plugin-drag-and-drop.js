@@ -159,7 +159,7 @@ module.exports = function (config) {
     var CURRENT_DROP_ID = undefined;
     var dragHandler = undefined; // so we can track when a drag is happening
     var isEmpty = function (el) {
-      return el.childNodes.length === 0;
+      return el.childNodes.length === 0 || el.childNodes.length === 1 && el.firstChild.nodeName === "BR";
     };
     var bindableElements = function () {
       return filter.call(scribe.el.children, function (child) {
