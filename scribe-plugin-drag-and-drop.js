@@ -227,9 +227,11 @@ module.exports = function (config) {
 
     helpers.delegate(scribe.el, "drop", "p", function (event) {
       event.preventDefault();
-      helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID, scribe);
-      // reset everything
-      bindDropIds();
+      if (isEmpty(event.target)) {
+        helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID, scribe);
+        // reset everything
+        bindDropIds();
+      }
     });
 
     helpers.delegate(scribe.el, "dragover", "p", function (event) {
