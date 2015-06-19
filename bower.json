@@ -7,12 +7,13 @@
   "copyright": "hmgibson23",
   "main": "scribe-plugin-drag-and-drop.js",
   "dependencies": {
-    "scribe": "~1.3.2",
-    "scribe-common": "~0.0.11",
-    "lodash-amd": "~2.4.1",
     "requirejs": "~2.1.18"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "scribe": "~1.4",
+    "lodash-amd": "3.5.0",
+    "immutable" : "3.6.2"
+    },
   "ignore": [
     "test",
     "example",
