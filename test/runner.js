@@ -14,6 +14,9 @@ mocha.timeout(15 * 1000);
 mocha.timeout(1200000);
 mocha.reporter('spec');
 
+// Tests hang with this in place
+//mocha.addFile(path.resolve(__dirname, 'setup.js'));
+
 glob(__dirname + '**/*.spec.js', function (err, files){
   if(err){process.exit(1);}
 
