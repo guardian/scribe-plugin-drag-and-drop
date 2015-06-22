@@ -1,5 +1,3 @@
-require("babel/register");
-
 var path = require('path');
 var glob = require('glob');
 var Mocha = require('mocha');
