@@ -1,8 +1,6 @@
 var chai = require('chai');
 var MockBrowser = require('mock-browser').mocks.MockBrowser;
 
-require("babel/register");
-
 var helpers = require('../src/helpers')({});
 
 var expect = chai.expect;
