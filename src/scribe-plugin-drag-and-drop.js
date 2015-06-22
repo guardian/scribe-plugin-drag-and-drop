@@ -77,7 +77,7 @@ module.exports = function(config) {
 
     helpers.delegate(scribe.el, 'drop', 'p', (event) => {
       event.preventDefault();
-      if (isEmpty(event.target)) {
+      if (isEmpty(event.target) && helpers.isMarkerElement(event.target)) {
         helpers.dropOccurred(event, bindableElements(), CURRENT_DROP_ID, scribe);
         // reset everything
         bindDropIds();
