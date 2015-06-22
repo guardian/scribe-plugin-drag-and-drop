@@ -137,9 +137,13 @@ module.exports = function (config) {
   }
 
   return {
+    isMarkerElement: isMarkerElement,
     removePreAndPost: removePreAndPost,
     addWrappingPs: addWrappingPs,
     dropOccurred: dropOccurred,
-    delegate: delegate
+    delegate: delegate,
+    constants: {
+      INDICATOR_CLASS: INDICATOR_CLASS
+    }
   };
 };
