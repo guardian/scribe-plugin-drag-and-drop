@@ -251,6 +251,12 @@ module.exports = function (config) {
         cleanup();
       });
     });
+
+    var cleanUpCommand = new scribe.api.Command("dragCleanUp");
+
+    cleanUpCommand.execute = function () {
+      cleanup();
+    };
   };
 };
 
