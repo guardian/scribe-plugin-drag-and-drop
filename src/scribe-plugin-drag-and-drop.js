@@ -102,6 +102,11 @@ module.exports = function(config) {
     document.addEventListener('dragend', () => {
       scribe.transactionManager.run(() => { cleanup(); });
     });
-  };
 
+    var cleanUpCommand = new scribe.api.Command('dragCleanUp');
+
+    cleanUpCommand.execute = function () {
+      cleanup();
+    };
+  };
 };
